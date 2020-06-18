@@ -28,6 +28,7 @@ def GetDBConfigs():
     Retrieves DB configs from a configuration file.
     """
     configs = {}
+    """
     with open(DB_CONFIG_FILE, 'r') as config_file:
         lines = config_file.readlines()
         for line in lines:
@@ -41,8 +42,15 @@ def GetDBConfigs():
                 except:
                     continue
                 configs[last_dom][key] = line[line.index('=')+1:-1]
-
-    return configs['db_creds']
+    """
+    configs = {"db_username": "whisk_admin",
+            "db_password": "",
+            "db_protocol": "http",
+            "db_host": "",
+            "db_port": "30621",
+            "db_prefix": "test_"
+            }
+    return configs
 
 
 def GetAllActivationDocs():
@@ -51,7 +59,7 @@ def GetAllActivationDocs():
     """
     configs = GetDBConfigs()
     url = configs['db_protocol']+'://'+configs['db_host']+':' + \
-        configs['db_port']+'/'+'whisk_local_activations/_all_docs'
+        configs['db_port']+'/'+configs['db_prefix']+'_activations/_all_docs'
     headers = {
         'Content-Type': 'application/json',
     }
@@ -67,7 +75,7 @@ def GetActivationRecordsSince(since, limit=100):
     """
     configs = GetDBConfigs()
     url = configs['db_protocol']+'://'+configs['db_host']+':' + \
-        configs['db_port']+'/'+'whisk_local_activations/_find'
+        configs['db_port']+'/'+configs['db_prefix']+'activations/_find'
     headers = {
         'Content-Type': 'application/json',
     }
@@ -92,7 +100,7 @@ def GetActivationIDsSince(since, limit=100):
     """
     configs = GetDBConfigs()
     url = configs['db_protocol']+'://'+configs['db_host']+':' + \
-        configs['db_port']+'/'+'whisk_local_activations/_find'
+        configs['db_port']+'/'+configs['db_prefix']+'activations/_find'
     headers = {
         'Content-Type': 'application/json',
     }
@@ -118,7 +126,7 @@ def GetActivation(activation_id, namespace='guest'):
     """
     configs = GetDBConfigs()
     url = configs['db_protocol']+'://'+configs['db_host']+':'+configs['db_port'] + \
-        '/'+'whisk_local_activations'+'/'+namespace+'%2F'+activation_id
+        '/'+configs['db_prefix']+'activations'+'/'+namespace+'%2F'+activation_id
     headers = {
         'Content-Type': 'application/json',
     }

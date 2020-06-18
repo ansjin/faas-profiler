@@ -2,8 +2,9 @@
 # It should be run oly once.
 
 # Installing some dependencies if needed
-sudo apt-get install -y moreutils
-sudo python3.6 -m pip install -r requirements.txt
+sudo apt-get update
+sudo apt-get install -y moreutils python3-pip linux-tools-`uname -r` blktrace intel-cmt-cat
+sudo pip3 install -r requirements.txt
 
 # Configure path variables used by the platform 
 ROOTLINE='FAAS_ROOT="'$(echo $PWD)'"'
